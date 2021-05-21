@@ -4,6 +4,7 @@
         "MYSQL_PASSWORD": "90p9hcGbEx3HkeEx",
         "MYSQL_DATABASE": "AthonStrike",
         "MYSQL_HOST": "35.247.209.26",
-        "MYSQL_PORT": "3306"
+        "MYSQL_PORT": "3306",
+        "API_URL": "http://localhost:3000/"
     }
 }

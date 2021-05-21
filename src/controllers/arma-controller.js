@@ -1,4 +1,5 @@
 const repository = require('../repositories/arma-repository');
+const API_V1_PATH = 'api/v1/armas/';
 
 exports.getAll = async (req, res, next) => {
     try {
@@ -11,7 +12,7 @@ exports.getAll = async (req, res, next) => {
                     nome: arma.nome,
                     danoCorpo : arma.danoCorpo,
                     danoCabeca: arma.danoCabeca,
-                    url: 'http://localhost:3000/api/v1/armas/' + arma.arma_id
+                    url: process.env.API_URL + API_V1_PATH + arma.arma_id
                 }
             })
         };
