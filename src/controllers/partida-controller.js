@@ -65,7 +65,6 @@ exports.getById = async (req, res, next) => {
             return res.status(404).send({error: 'Partida inexistente :('});
         }
 
-        let response = [];
         let equipeVencedores = [];
         let equipePerdedores = [];
 
@@ -87,10 +86,10 @@ exports.getById = async (req, res, next) => {
             }
         });
 
-        response.push({
+        let response = {
             vencedores: equipeVencedores,
             perdedores: equipePerdedores
-        });
+        };
 
         res.status(200).send(response);
     } catch(err) {
