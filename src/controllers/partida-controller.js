@@ -65,7 +65,34 @@ exports.getById = async (req, res, next) => {
             return res.status(404).send({error: 'Partida inexistente :('});
         }
 
-        res.status(200).send(data);
+        let response = [];
+        let equipeVencedores = [];
+        let equipePerdedores = [];
+
+        data.forEach(function(info) {
+            if(info.resultado == "Vencedor") {
+                equipeVencedores.push({
+                    nickname: info.nickname,
+                    abates: info.abates,
+                    mortes: info.mortes,
+                    headshots: info.headshots
+                });
+            } else {
+                equipePerdedores.push({
+                    nickname: info.nickname,
+                    abates: info.abates,
+                    mortes: info.mortes,
+                    headshots: info.headshots
+                });
+            }
+        });
+
+        response.push({
+            vencedores: equipeVencedores,
+            perdedores: equipePerdedores
+        });
+
+        res.status(200).send(response);
     } catch(err) {
         res.status(500).send({error: err});
     }
