@@ -4,10 +4,56 @@ const API_V1_PATH = 'api/v1/partidas/';
 exports.getAll = async (req, res, next) => {
     try {
         var data = await repository.getAll();
+        
+        let partidaAtual = 0;
+        let response = [];
+        let equipeAlpha = [];
+        let equipeBravo =[];
+
+        data.forEach(function(element, index) {
+            if(element.partida_id != partidaAtual){
+                if(partidaAtual == 0){
+                    partidaAtual = element.partida_id;
+                    if(element.equipe == "Alpha"){
+                        equipeAlpha.push(element.nickname)
+                    } else {
+                        equipeBravo.push(element.nickname)
+                    }
+                } else {
+                    response.push({
+                        partida_id: partidaAtual,
+                        alpha: equipeAlpha,
+                        bravo: equipeBravo
+                    });
+                    partidaAtual = element.partida_id;
+                    equipeAlpha = [];
+                    equipeBravo = [];
+                    if(element.equipe == "Alpha"){
+                        equipeAlpha.push(element.nickname)
+                    } else {
+                        equipeBravo.push(element.nickname)
+                    }
+                }
+            } else {
+                if(element.equipe == "Alpha"){
+                    equipeAlpha.push(element.nickname)
+                } else {
+                    equipeBravo.push(element.nickname)
+                }
+
+                if(index == data.length - 1){
+                    response.push({
+                        partida_id: partidaAtual,
+                        alpha: equipeAlpha,
+                        bravo: equipeBravo
+                    });
+                }
+            }
+        });
     
-        return res.status(200).send(data);
+        return res.status(200).send(response);
     } catch (err) {
-        res.status(500).send({error: "err"});
+        res.status(404).send({error: err});
     }
 };
 
